@@ -1,14 +1,135 @@
 {
-    "data": [
+    "button": [
         { 
-            "id": 1, 
-            "title": "Элемент 1", 
-            "description": "Описание элемента 1" 
+            "img": "./img/icon/pizza-link.svg",
+            "buttonName": "Пицца",
+            "type": "button",
+            "dataTarget": "product-pizza"
         },
         { 
-            "id": 2, 
-            "title": "Элемент 2", 
-            "description": "Описание элемента 2" 
+            "img": "./img/icon/burger.svg",
+            "buttonName": "Бургеры",
+            "type": "button",
+            "dataTarget": "product-burgers"
+        },
+        { 
+            "img": "./img/icon/potato.svg",
+            "buttonName": "Картошка",
+            "type": "button",
+            "dataTarget": "product-potatos"
+        },
+        { 
+            "img": "./img/icon/sets.svg",
+            "buttonName": "Наборы",
+            "type": "button",
+            "dataTarget": "product-sets"
+        },
+        { 
+            "img": "./img/icon/drink.png",
+            "buttonName": "Напитки",
+            "type": "button",
+            "dataTarget": "product-drinks"
+        }
+    ],
+
+    "pizzaCard": [
+        { 
+            "img": "./img/product/pizza/pepperoni-pizza.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Пицца пепперони",
+            "price": 880,
+            "buttonImg": "./img/icon/plus.svg"
+        },
+        { 
+            "img": "./img/product/pizza/pizza-sausages.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Пицца с колбасками",
+            "price": 950,
+            "buttonImg": "./img/icon/plus.svg"
+        },
+        { 
+            "img": "./img/product/pizza/pizza-mushrooms.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Пицца с грибами",
+            "price": 880,
+            "buttonImg": "./img/icon/plus.svg"
+        },
+        { 
+            "img": "./img/product/pizza/pepperoni-pizza.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Пицца пепперони",
+            "price": 880,
+            "buttonImg": "./img/icon/plus.svg"
+        },
+        { 
+            "img": "./img/product/pizza/pizza-sausages.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Пицца с колбасками",
+            "price": 950,
+            "buttonImg": "./img/icon/plus.svg"
+        },
+        { 
+            "img": "./img/product/pizza/pizza-mushrooms.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Пицца с грибами",
+            "price": 880,
+            "buttonImg": "./img/icon/plus.svg"
+        }
+    ],
+    "burgerCard": [
+        { 
+            "img": "./img/product/pizza/pepperoni-pizza.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Бургер",
+            "price": 880,
+            "buttonImg": "./img/icon/plus.svg"
+        },
+        { 
+            "img": "./img/product/pizza/pizza-sausages.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Пицца с колбасками",
+            "price": 950,
+            "buttonImg": "./img/icon/plus.svg"
+        },
+        { 
+            "img": "./img/product/pizza/pizza-mushrooms.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Пицца с грибами",
+            "price": 880,
+            "buttonImg": "./img/icon/plus.svg"
+        },
+        { 
+            "img": "./img/product/pizza/pepperoni-pizza.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Пицца пепперони",
+            "price": 880,
+            "buttonImg": "./img/icon/plus.svg"
+        },
+        { 
+            "img": "./img/product/pizza/pizza-sausages.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Пицца с колбасками",
+            "price": 950,
+            "buttonImg": "./img/icon/plus.svg"
+        },
+        { 
+            "img": "./img/product/pizza/pizza-mushrooms.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Пицца с грибами",
+            "price": 880,
+            "buttonImg": "./img/icon/plus.svg"
         }
     ]
 }
