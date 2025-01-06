@@ -1,6 +1,9 @@
 let button = [];
 let pizzaCard = [];
 let burgerCard = [];
+let potatoCard = [];
+let setCard = [];
+let drinkCard = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     fetch('http://localhost:3001/button')
@@ -81,19 +84,22 @@ document.addEventListener('DOMContentLoaded', () => {
             navButton.addEventListener('click', function() {
                 let target = navButton.getAttribute('data-target');
                 let allNavButtons = document.querySelectorAll('.section-order__nav-button');
-
+            
                 allNavButtons.forEach((btn) => {
                     btn.classList.remove('section-order__nav-button--active');
                 });
-
+            
                 navButton.classList.add('section-order__nav-button--active');
-                
-                let menu = document.querySelector('.section-order__card-list');
-                if (menu.getAttribute('data-card') === target) {
-                    menu.classList.add('border');
-                } else {
-                    menu.classList.remove('border');
-                }
+            
+                let allMenus = document.querySelectorAll('.section-order__card-list');
+            
+                allMenus.forEach((menu) => {
+                    if (menu.getAttribute('data-card') === target) {
+                        menu.classList.remove('section-order__hidden');
+                    } else {
+                        menu.classList.add('section-order__hidden');
+                    }
+                });
             });
 
             navItem.appendChild(navButton);
@@ -171,16 +177,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 cardItem.appendChild(productPicture);
 
                 let pizzaWrapper = document.createElement('div');
-                pizzaWrapper.setAttribute('class', 'section-order__pizza-wrapper');
+                pizzaWrapper.setAttribute('class', 'section-order__product-wrapper');
                 cardItem.appendChild(pizzaWrapper);
 
                 let pizzaName = document.createElement('h3');
-                pizzaName.setAttribute('class', 'section-order__pizza-name');
+                pizzaName.setAttribute('class', 'section-order__product-name');
                 pizzaName.textContent = pizzaCard.productName;
                 pizzaWrapper.appendChild(pizzaName);
 
                 let pizzaPrice = document.createElement('p');
-                pizzaPrice.setAttribute('class', 'section-order__pizza-price');
+                pizzaPrice.setAttribute('class', 'section-order__product-price');
                 pizzaPrice.textContent = pizzaCard.price + ' ₽';
                 pizzaWrapper.appendChild(pizzaPrice);
 
@@ -196,57 +202,203 @@ document.addEventListener('DOMContentLoaded', () => {
             // подключение
             orderContainer.appendChild(cardList);
 
-        //     fetch('http://localhost:3001/burgerCard')
-        //     .then(res => res.json())
-        //     .then((fetchedCard) => { 
-        //         burgerCard = fetchedCard; 
+            fetch('http://localhost:3001/burgerCard')
+            .then(res => res.json())
+            .then((fetchedCard) => { 
+                burgerCard = fetchedCard; 
 
-        //         let cardListBurger = document.createElement('ul');
-        //         cardListBurger.setAttribute('class', 'section-order__card-list');
-        //         cardListBurger.setAttribute('data-card', 'product-burgers');
+                let cardList = document.createElement('ul');
+                cardList.setAttribute('class', 'section-order__card-list');
+                cardList.setAttribute('data-card', 'product-burgers');
     
-        //         burgerCard.forEach((burgerCard) => {
-        //             let cardItem = document.createElement('li');
-        //             cardItem.setAttribute('class', 'section-order__card-item');
-        //             cardListBurger.appendChild(cardItem);
+                burgerCard.forEach((burgerCard) => {
+                    let cardItem = document.createElement('li');
+                    cardItem.setAttribute('class', 'section-order__card-item');
+                    cardList.appendChild(cardItem);
     
-        //             let productPicture = document.createElement('img');
-        //             productPicture.setAttribute('class', 'section-order__card-img');
-        //             productPicture.setAttribute('src', burgerCard.img);
-        //             productPicture.setAttribute('alt', burgerCard.productName);
-        //             productPicture.setAttribute('width', burgerCard.width);
-        //             productPicture.setAttribute('height', burgerCard.height);
-        //             cardItem.appendChild(productPicture);
+                    let productPicture = document.createElement('img');
+                    productPicture.setAttribute('class', 'section-order__card-img');
+                    productPicture.setAttribute('src', burgerCard.img);
+                    productPicture.setAttribute('alt', burgerCard.productName);
+                    productPicture.setAttribute('width', burgerCard.width);
+                    productPicture.setAttribute('height', burgerCard.height);
+                    cardItem.appendChild(productPicture);
     
-        //             let burgerWrapper = document.createElement('div');
-        //             burgerWrapper.setAttribute('class', 'section-order__pizza-wrapper');
-        //             cardItem.appendChild(burgerWrapper);
+                    let pizzaWrapper = document.createElement('div');
+                    pizzaWrapper.setAttribute('class', 'section-order__product-wrapper');
+                    cardItem.appendChild(pizzaWrapper);
     
-        //             let burgerName = document.createElement('h3');
-        //             burgerName.setAttribute('class', 'section-order__pizza-name');
-        //             burgerName.textContent = burgerCard.productName;
-        //             burgerWrapper.appendChild(burgerName);
+                    let pizzaName = document.createElement('h3');
+                    pizzaName.setAttribute('class', 'section-order__product-name');
+                    pizzaName.textContent = burgerCard.productName;
+                    pizzaWrapper.appendChild(pizzaName);
     
-        //             let burgerPrice = document.createElement('p');
-        //             burgerPrice.setAttribute('class', 'section-order__pizza-price');
-        //             burgerPrice.textContent = burgerCard.price + ' ₽';
-        //             burgerWrapper.appendChild(burgerPrice);
+                    let pizzaPrice = document.createElement('p');
+                    pizzaPrice.setAttribute('class', 'section-order__product-price');
+                    pizzaPrice.textContent = burgerCard.price + ' ₽';
+                    pizzaWrapper.appendChild(pizzaPrice);
     
-        //             let addButton = document.createElement('button');
-        //             addButton.setAttribute('class', 'section-order__add-button');
-        //             burgerWrapper.appendChild(addButton);
+                    let addButton = document.createElement('button');
+                    addButton.setAttribute('class', 'section-order__add-button');
+                    pizzaWrapper.appendChild(addButton);
     
-        //             let buttonPlus = document.createElement('img');
-        //             buttonPlus.setAttribute('src', burgerCard.buttonImg);
-        //             addButton.appendChild(buttonPlus);
-        //         });
+                    let buttonPlus = document.createElement('img');
+                    buttonPlus.setAttribute('src', burgerCard.buttonImg);
+                    addButton.appendChild(buttonPlus);
+                    // подключение 
+                    orderContainer.appendChild(cardList);
+                });
+                
+            });
+        });
+        fetch('http://localhost:3001/potatoCard')
+        .then(res => res.json())
+        .then((fetchedCard) => { 
+            potatoCard = fetchedCard; 
 
-        //     // подключение 
-        //     orderContainer.appendChild(cardListBurger);
-        //     });
+            let cardList = document.createElement('ul');
+            cardList.setAttribute('class', 'section-order__card-list');
+            cardList.setAttribute('data-card', 'product-potatos');
+
+            potatoCard.forEach((potatoCard) => {
+                let cardItem = document.createElement('li');
+                cardItem.setAttribute('class', 'section-order__card-item');
+                cardList.appendChild(cardItem);
+
+                let productPicture = document.createElement('img');
+                productPicture.setAttribute('class', 'section-order__card-img');
+                productPicture.setAttribute('src', potatoCard.img);
+                productPicture.setAttribute('alt', potatoCard.productName);
+                productPicture.setAttribute('width', potatoCard.width);
+                productPicture.setAttribute('height', potatoCard.height);
+                cardItem.appendChild(productPicture);
+
+                let pizzaWrapper = document.createElement('div');
+                pizzaWrapper.setAttribute('class', 'section-order__product-wrapper');
+                cardItem.appendChild(pizzaWrapper);
+
+                let pizzaName = document.createElement('h3');
+                pizzaName.setAttribute('class', 'section-order__product-name');
+                pizzaName.textContent = potatoCard.productName;
+                pizzaWrapper.appendChild(pizzaName);
+
+                let pizzaPrice = document.createElement('p');
+                pizzaPrice.setAttribute('class', 'section-order__product-price');
+                pizzaPrice.textContent = potatoCard.price + ' ₽';
+                pizzaWrapper.appendChild(pizzaPrice);
+
+                let addButton = document.createElement('button');
+                addButton.setAttribute('class', 'section-order__add-button');
+                pizzaWrapper.appendChild(addButton);
+
+                let buttonPlus = document.createElement('img');
+                buttonPlus.setAttribute('src', potatoCard.buttonImg);
+                addButton.appendChild(buttonPlus);
+                // подключение 
+                orderContainer.appendChild(cardList);
+            });
+            
+        });
+        fetch('http://localhost:3001/setCard')
+        .then(res => res.json())
+        .then((fetchedCard) => { 
+            setCard = fetchedCard; 
+
+            let cardList = document.createElement('ul');
+            cardList.setAttribute('class', 'section-order__card-list');
+            cardList.setAttribute('data-card', 'product-sets');
+
+            setCard.forEach((setCard) => {
+                let cardItem = document.createElement('li');
+                cardItem.setAttribute('class', 'section-order__card-item');
+                cardList.appendChild(cardItem);
+
+                let productPicture = document.createElement('img');
+                productPicture.setAttribute('class', 'section-order__card-img');
+                productPicture.setAttribute('src', setCard.img);
+                productPicture.setAttribute('alt', setCard.productName);
+                productPicture.setAttribute('width', setCard.width);
+                productPicture.setAttribute('height', setCard.height);
+                cardItem.appendChild(productPicture);
+
+                let pizzaWrapper = document.createElement('div');
+                pizzaWrapper.setAttribute('class', 'section-order__product-wrapper');
+                cardItem.appendChild(pizzaWrapper);
+
+                let pizzaName = document.createElement('h3');
+                pizzaName.setAttribute('class', 'section-order__product-name');
+                pizzaName.textContent = setCard.productName;
+                pizzaWrapper.appendChild(pizzaName);
+
+                let pizzaPrice = document.createElement('p');
+                pizzaPrice.setAttribute('class', 'section-order__product-price');
+                pizzaPrice.textContent = setCard.price + ' ₽';
+                pizzaWrapper.appendChild(pizzaPrice);
+
+                let addButton = document.createElement('button');
+                addButton.setAttribute('class', 'section-order__add-button');
+                pizzaWrapper.appendChild(addButton);
+
+                let buttonPlus = document.createElement('img');
+                buttonPlus.setAttribute('src', setCard.buttonImg);
+                addButton.appendChild(buttonPlus);
+                // подключение 
+                orderContainer.appendChild(cardList);
+            });
+            
+        });
+
+        fetch('http://localhost:3001/drinkCard')
+        .then(res => res.json())
+        .then((fetchedCard) => { 
+            drinkCard = fetchedCard; 
+
+            let cardList = document.createElement('ul');
+            cardList.setAttribute('class', 'section-order__card-list');
+            cardList.setAttribute('data-card', 'product-drinks');
+
+            drinkCard.forEach((drinkCard) => {
+                let cardItem = document.createElement('li');
+                cardItem.setAttribute('class', 'section-order__card-item');
+                cardList.appendChild(cardItem);
+
+                let productPicture = document.createElement('img');
+                productPicture.setAttribute('class', 'section-order__card-img');
+                productPicture.setAttribute('src', drinkCard.img);
+                productPicture.setAttribute('alt', drinkCard.productName);
+                productPicture.setAttribute('width', drinkCard.width);
+                productPicture.setAttribute('height', drinkCard.height);
+                cardItem.appendChild(productPicture);
+
+                let pizzaWrapper = document.createElement('div');
+                pizzaWrapper.setAttribute('class', 'section-order__product-wrapper');
+                cardItem.appendChild(pizzaWrapper);
+
+                let pizzaName = document.createElement('h3');
+                pizzaName.setAttribute('class', 'section-order__product-name');
+                pizzaName.textContent = drinkCard.productName;
+                pizzaWrapper.appendChild(pizzaName);
+
+                let pizzaPrice = document.createElement('p');
+                pizzaPrice.setAttribute('class', 'section-order__product-price');
+                pizzaPrice.textContent = drinkCard.price + ' ₽';
+                pizzaWrapper.appendChild(pizzaPrice);
+
+                let addButton = document.createElement('button');
+                addButton.setAttribute('class', 'section-order__add-button');
+                pizzaWrapper.appendChild(addButton);
+
+                let buttonPlus = document.createElement('img');
+                buttonPlus.setAttribute('src', drinkCard.buttonImg);
+                addButton.appendChild(buttonPlus);
+                // подключение 
+                orderContainer.appendChild(cardList);
+            });
+            
         });
     })
     .catch(error => {
         console.error('Ошибка при загрузке данных:', error);
     });
 });
+
