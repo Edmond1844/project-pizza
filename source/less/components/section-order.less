@@ -1,8 +1,9 @@
 .section-order {
-    padding: 66px 18px 302px 140px;
+    padding: 66px 18px 302px 30px;
 }
 
 .section-order__container {
+    position: relative;
     .container ();
 }
 
@@ -268,6 +269,128 @@
     box-shadow: -1px 1px 8px 3px rgba(57, 56, 56, 0.26);
 }
 
-// .section-order__cart {
+.section-order__cart {
+    position: fixed;
 
+    top: 80px;
+    right: 50px;
+
+    width: 428px;
+    max-height: 500px;
+    overflow-y: auto;
+
+    box-shadow: -1px 1px 8px 3px rgba(57, 56, 56, 0.26);
+
+    padding: 66px 54px 173px 47px;
+}
+
+.section-order__title-cart {
+    margin: 0;
+    margin-right: 110px;
+
+    font-family: "Roboto", serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 30px;
+}
+
+.section-order__cart-products {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    // .reset-styles-ol ();
+}
+
+
+.section-order__add-product-item {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    column-gap: 20px;
+
+    width: 306px;
+
+    padding: 10px;
+    margin-top: 10px;
+
+    border-radius: 20px;
+
+    background-color: @gray;
+}
+
+.section-order__img-cart {
+    border: 1px solid @white;
+}
+
+.section-order__wrapper-product {
+    width: 406px;
+
+    background-color: @gray;
+}
+
+// .section-order__wrapper-text-cart {
 // }
+
+.section-order__element-name {
+    font-family: "Roboto", serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 20px;
+
+    margin: 0;
+}
+
+.section-order__element-price {
+    font-family: "Roboto", serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 18px;
+
+    margin: 0;
+
+    color: @green;
+}
+
+.section-order__wrapper-btn-add-remove {
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+
+    width: 100px;
+    height: 50px;
+
+    right: 20px;
+    bottom: 0;
+}
+
+.section-order__button-add-remove {
+    width: 30px;
+    height: 30px;
+
+    border: 0;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    background-color: @white;
+
+    img {
+        color: @black;
+    }
+}
+
+// .section-order__add-button-plus {
+    
+// }
+
+.section-order__quantity-product {
+    font-family: "Roboto", serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 20px;
+}
