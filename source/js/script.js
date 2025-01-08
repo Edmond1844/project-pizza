@@ -256,29 +256,37 @@ document.addEventListener('DOMContentLoaded', () => {
                         buttonAdd.appendChild(buttonAddPlus);
 
                         // С чатом
+                        let productPriceCart = productPrice;
                         let clickCount = 0; 
                         let clickRemove = 0; 
-
+                        
                         buttonAdd.addEventListener('click', function() {
-                            clickCount++; // Увеличиваем счетчик кликов
+                            clickCount++;
                             updateQuantity();
                         });
-
+                        
                         buttonRemove.addEventListener('click', function() { 
-                            clickRemove++; // Увеличиваем счетчик удалений
+                            if (clickCount > 0) {
+                                clickRemove++;
+                            }
                             updateQuantity();
                         });
-
+                        
+                        // function calculation(quantity) {
+                        //     let totalPrice = productPrice + quantity;
+                        //     return totalPrice;
+                        // }
+                        
                         function updateQuantity() {
                             // Общее количество
                             let totalCount = clickCount - clickRemove;
-
+                        
                             // Устанавливаем текст в зависимости от общего количества
-                            if (totalCount <= 1) {
-                                quantityProduct.textContent = '01'; // Если общее количество 0 или меньше
-
+                            if (totalCount <= 0) {
+                                quantityProduct.textContent = '0'; // Если общее количество 0 или меньшеv
+                                // priceElementCart.textContent = calculation(productPrice); 
                             } else {
-                                quantityProduct.textContent = totalCount > 9 ? `${totalCount}` : `0${totalCount}`; // Убираем ведущий ноль, если больше 9
+                                quantityProduct.textContent = totalCount > 9 ? `${totalCount}` : `0${totalCount}`; // Форматируем количество
                             }
                         }
                     }
