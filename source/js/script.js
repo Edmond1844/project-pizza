@@ -189,108 +189,89 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 let addButton = document.createElement('button');
                 addButton.setAttribute('class', 'section-order__add-button');
-                pizzaWrapper.appendChild(addButton);    
+                pizzaWrapper.appendChild(addButton); 
+                
+                addButton.addEventListener('click', function(){
+                    const cart = document.querySelector('.section-order__cart');
 
-                // Добавление в корзину
-                cardList.addEventListener('click', function(event) {
-                    if (event.target.matches('.section-order__add-button')) {
-                        const card = event.target.closest('.section-order__card-item'); 
+                    let productCard = document.createElement('div');
+                    productCard.setAttribute('class', 'section-order__product-card-wrapper');
+                    cart.appendChild(productCard);
+
+                    let productImage = document.createElement('img');
+                    productImage.setAttribute('src', pizzaCard.img);
+                    productImage.setAttribute('class', 'section-order__img-cart');
+                    productCard.appendChild(productImage);
+
+                    let wrapperTextCard = document.createElement('div');
+                    wrapperTextCard.setAttribute('class', 'section-order__wrapper-text-card');
+                    productCard.appendChild(wrapperTextCard);
+
+                    let productName = document.createElement('h3');
+                    productName.setAttribute('class', 'section-order__element-name');
+                    productName.textContent = pizzaCard.productName;
+                    wrapperTextCard.appendChild(productName);
+
+                    let productPrice = document.createElement('p');
+                    productPrice.setAttribute('class', 'section-order__element-price');
+                    productPrice.textContent = pizzaCard.price + ' ₽';
+                    wrapperTextCard.appendChild(productPrice);
+
+                    let wrapperBtnAddRemove = document.createElement('div');
+                    wrapperBtnAddRemove.setAttribute('class', 'section-order__wrapper-btn-add-remove');
+                    productCard.appendChild(wrapperBtnAddRemove);
                     
-                        let addItemProduct = document.createElement('li');
-                        addItemProduct.setAttribute('class', 'section-order__add-product-item');
-                        cartProducts.appendChild(addItemProduct); 
+                    let number = '0' + 1;
                     
-                        let productImage = card.querySelector('.section-order__card-img').src;
-                        let productName = card.querySelector('.section-order__product-name').textContent;
-                        let productPrice = card.querySelector('.section-order__product-price').textContent; 
-                            
-                        let productPicture = document.createElement('img');
-                        productPicture.setAttribute('class', 'section-order__img-cart');
-                        productPicture.setAttribute('alt', productName);
-                        productPicture.setAttribute('src', productImage);
-                        productPicture.setAttribute('width', '89');
-                        productPicture.setAttribute('height', '86');
-                        addItemProduct.appendChild(productPicture);
-
-                        let wrapperProductsCart = document.createElement('div');
-                        wrapperProductsCart.setAttribute('class', 'section-order__wrapper-text-cart');
-                        addItemProduct.appendChild(wrapperProductsCart);
-
-                        let nameElementCart = document.createElement('p');
-                        nameElementCart.setAttribute('class', 'section-order__element-name');
-                        nameElementCart.textContent = productName;
-                        wrapperProductsCart.appendChild(nameElementCart);
-
-                        let priceElementCart = document.createElement('p');
-                        priceElementCart.setAttribute('class', 'section-order__element-price');
-                        priceElementCart.textContent = productPrice;
-                        wrapperProductsCart.appendChild(priceElementCart);
-
-                        let wrapperBtnAddRemove = document.createElement('div');
-                        wrapperBtnAddRemove.setAttribute('class', 'section-order__wrapper-btn-add-remove');
-                        addItemProduct.appendChild(wrapperBtnAddRemove);
-
-                        let buttonRemove = document.createElement('button');
-                        buttonRemove.setAttribute('class', 'section-order__button-add-remove');
-                        wrapperBtnAddRemove.appendChild(buttonRemove);
-
-                        let buttonAddMinus = document.createElement('img');
-                        buttonAddMinus.setAttribute('src', './img/icon/minus.svg');
-                        buttonAddMinus.setAttribute('width', '15');
-                        buttonAddMinus.setAttribute('height', '2');
-                        buttonRemove.appendChild(buttonAddMinus);
-
-                        let quantityProduct = document.createElement('p');
-                        quantityProduct.setAttribute('class', 'section-order__quantity-product');
-                        quantityProduct.textContent = '01';
-                        wrapperBtnAddRemove.appendChild(quantityProduct);
-
-                        let buttonAdd = document.createElement('button');
-                        buttonAdd.setAttribute('class', 'section-order__button-add-remove');
-                        wrapperBtnAddRemove.appendChild(buttonAdd);
-
-                        let buttonAddPlus = document.createElement('img');
-                        buttonAddPlus.setAttribute('src', './img/icon/plus.svg');
-                        buttonAddPlus.setAttribute('width', '15');
-                        buttonAddPlus.setAttribute('height', '15');
-                        buttonAdd.appendChild(buttonAddPlus);
-
-                        // С чатом
-                        let productPriceCart = productPrice;
-                        let clickCount = 0; 
-                        let clickRemove = 0; 
+                    function calculationPrice() {
+                        let priceItem = pizzaCard.price;
                         
-                        buttonAdd.addEventListener('click', function() {
-                            clickCount++;
-                            updateQuantity();
-                        });
+                        const price = priceItem * number;
                         
-                        buttonRemove.addEventListener('click', function() { 
-                            if (clickCount > 0) {
-                                clickRemove++;
-                            }
-                            updateQuantity();
-                        });
-                        
-                        // function calculation(quantity) {
-                        //     let totalPrice = productPrice + quantity;
-                        //     return totalPrice;
-                        // }
-                        
-                        function updateQuantity() {
-                            // Общее количество
-                            let totalCount = clickCount - clickRemove;
-                        
-                            // Устанавливаем текст в зависимости от общего количества
-                            if (totalCount <= 0) {
-                                quantityProduct.textContent = '0'; // Если общее количество 0 или меньшеv
-                                // priceElementCart.textContent = calculation(productPrice); 
-                            } else {
-                                quantityProduct.textContent = totalCount > 9 ? `${totalCount}` : `0${totalCount}`; // Форматируем количество
-                            }
+                        return price;
+                    };
+
+
+                    let buttonRemove = document.createElement('button');
+                    buttonRemove.setAttribute('class', 'section-order__button-add-remove');
+                    wrapperBtnAddRemove.appendChild(buttonRemove);
+
+                    let buttonAddMinus = document.createElement('img');
+                    buttonAddMinus.setAttribute('src', './img/icon/minus.svg');
+                    buttonRemove.appendChild(buttonAddMinus);
+                    
+                    buttonRemove.addEventListener('click', function() {
+                        if (number > 1) { 
+                            number--;
+
+                            quantityProduct.textContent = number < 10 ? '0' + number : number; 
+                            productPrice.textContent = calculationPrice(pizzaCard.price) + ' ₽';
                         }
-                    }
-                });
+                    });
+                    
+                    let quantityProduct = document.createElement('span');
+                    quantityProduct.setAttribute('class', 'section-order__quantity-product');
+                    quantityProduct.textContent = number;
+                    wrapperBtnAddRemove.appendChild(quantityProduct);
+
+                    let buttonAdd = document.createElement('button');
+                    buttonAdd.setAttribute('class', 'section-order__button-add-remove');
+                    wrapperBtnAddRemove.appendChild(buttonAdd);
+
+                    let buttonAddPlus = document.createElement('img');
+                    buttonAddPlus.setAttribute('src', './img/icon/plus.svg');
+                    buttonAddPlus.setAttribute('width', '15');
+                    buttonAddPlus.setAttribute('height', '15');
+                    buttonAdd.appendChild(buttonAddPlus);
+
+                    buttonAdd.addEventListener('click', function(){
+                        number++;
+                        // quantityProduct.textContent = '0' + number;
+                        quantityProduct.textContent = number < 10 ? '0' + number : number;
+
+                        productPrice.textContent = calculationPrice(pizzaCard.price) + ' ₽';
+                    });
+                })
                     
                 let buttonPlus = document.createElement('img');
                 buttonPlus.setAttribute('src', pizzaCard.buttonImg);
@@ -583,10 +564,6 @@ document.addEventListener('DOMContentLoaded', () => {
         titleCart.textContent = 'Корзина';
         titleCart.setAttribute('class', 'section-order__title-cart');
         wrapperCart.appendChild(titleCart);
-
-        let cartProducts = document.createElement('ul');
-        cartProducts.setAttribute('class', 'section-order__cart-products');
-        wrapperCart.appendChild(cartProducts);
     })
     .catch(error => {
         console.error('Ошибка при загрузке данных:', error);
