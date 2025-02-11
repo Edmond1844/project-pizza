@@ -1,34 +1,34 @@
 {
-    "button": [
+    "buttons": [
         { 
             "img": "./img/icon/pizza-link.svg",
             "buttonName": "Пицца",
             "type": "button",
-            "dataTarget": "product-pizza"
+            "dataTarget": "pizzaCard"
         },
         { 
             "img": "./img/icon/burger.svg",
             "buttonName": "Бургеры",
             "type": "button",
-            "dataTarget": "product-burgers"
+            "dataTarget": "burgerCard"
         },
         { 
             "img": "./img/icon/potato.svg",
             "buttonName": "Картошка",
             "type": "button",
-            "dataTarget": "product-potatos"
+            "dataTarget": "potatoCard"
         },
         { 
             "img": "./img/icon/sets.svg",
             "buttonName": "Наборы",
             "type": "button",
-            "dataTarget": "product-sets"
+            "dataTarget": "setCard"
         },
         { 
             "img": "./img/icon/drink.png",
             "buttonName": "Напитки",
             "type": "button",
-            "dataTarget": "product-drinks"
+            "dataTarget": "drinkCard"
         }
     ],
 
