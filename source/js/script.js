@@ -1,12 +1,11 @@
     let cartArray = [];
 
-    // if(!localStorage.getItem('addedProduct')) {
-    //     console.log('Пусто')
-    // } else {
-    //     cartArray = JSON.parse(localStorage.getItem('addedProduct'));
-    // }
+    if(!localStorage.getItem('addedData')) {
+        console.log('Пусто')
+    } else {
+        cartArray = JSON.parse(localStorage.getItem('addedData'));
+    }
 
-    
     function getButtons(url) {
         fetch(url)
             .then(res => res.json())
@@ -31,26 +30,26 @@
                     imgBtn.setAttribute('src', buttonNav.img);
                     navButton.appendChild(imgBtn);
 
-                    navButton.addEventListener('click', function() {
-                        let target = navButton.getAttribute('data-target');
+                    // navButton.addEventListener('click', function() {
+                    //     let target = navButton.getAttribute('data-target');
                         
-                        let allNavButtons = document.querySelectorAll('.section-order__nav-button');
+                    //     let allNavButtons = document.querySelectorAll('.section-order__nav-button');
                                         
-                        allNavButtons.forEach((btn) => {
-                            btn.classList.remove('section-order__nav-button--active');
-                        });
-                            navButton.classList.add('section-order__nav-button--active');
+                    //     allNavButtons.forEach((btn) => {
+                    //         btn.classList.remove('section-order__nav-button--active');
+                    //     });
+                    //         navButton.classList.add('section-order__nav-button--active');
                                         
-                            let allMenus = document.querySelectorAll('.section-order__card-list');
+                    //         let allMenus = document.querySelectorAll('.section-order__card-list');
                         
-                            allMenus.forEach((menu) => {
-                                if (menu.getAttribute('data-card') === target) {
-                                    menu.classList.remove('section-order__hidden');
-                                } else {
-                                    menu.classList.add('section-order__hidden');
-                                }
-                            });
-                    });
+                    //         allMenus.forEach((menu) => {
+                    //             if (menu.getAttribute('data-card') === target) {
+                    //                 menu.classList.remove('section-order__hidden');
+                    //             } else {
+                    //                 menu.classList.add('section-order__hidden');
+                    //             }
+                    //         });
+                    // });
                 });
             })
             .catch(error => {
@@ -101,6 +100,14 @@
                 addButton.setAttribute('class', 'section-order__add-button');
                 contentWrapper.appendChild(addButton); 
 
+                addButton.addEventListener('click', function(){
+                    cartArray.push(productItem);
+                    localStorage.setItem('addedData', JSON.stringify(cartArray));
+                    
+                    cartListProducts.innerHTML = '';
+                    getGoods();
+                });
+
                 let buttonPlus = document.createElement('img');
                 buttonPlus.setAttribute('src', productItem.buttonImg);
                 addButton.appendChild(buttonPlus);
@@ -111,6 +118,89 @@
             console.error('Ошибка при загрузке данных:', error);
         });
     };
+
+    function getGoods() {
+        cartArray.forEach(cardProduct => {    
+            let cartItemProduct = document.createElement('li');
+            cartItemProduct.setAttribute('class', 'section-order__add-product-item');
+            cartListProducts.appendChild(cartItemProduct);  
+
+            let productImage = document.createElement('img');
+            productImage.setAttribute('src', cardProduct.img);
+            productImage.setAttribute('class', 'section-order__img-cart');
+            cartItemProduct.appendChild(productImage);
+
+            let wrapperTextCard = document.createElement('div');
+            wrapperTextCard.setAttribute('class', 'section-order__wrapper-text-card');
+            cartItemProduct.appendChild(wrapperTextCard);
+            
+            let productName = document.createElement('h3');
+            productName.setAttribute('class', 'section-order__element-name');
+            productName.textContent = cardProduct.productName;
+            wrapperTextCard.appendChild(productName);
+
+            let productPrice = document.createElement('p');
+            productPrice.setAttribute('class', 'section-order__element-price');
+            productPrice.textContent = cardProduct.price + ' ₽';
+            wrapperTextCard.appendChild(productPrice);
+            
+            let wrapperBtnAddRemove = document.createElement('div');
+            wrapperBtnAddRemove.setAttribute('class', 'section-order__wrapper-btn-add-remove');
+            cartItemProduct.appendChild(wrapperBtnAddRemove);
+
+            let number = '0' + 1;
+            
+            function calculationPrice() {
+                let priceItem = cardProduct.price;
+                
+                const price = priceItem * number;
+                
+                return price;
+            };
+
+            let buttonRemove = document.createElement('button');
+            buttonRemove.setAttribute('class', 'section-order__button-add-remove');
+            wrapperBtnAddRemove.appendChild(buttonRemove);
+
+            let buttonAddMinus = document.createElement('img');
+            buttonAddMinus.setAttribute('src', './img/icon/minus.svg');
+            buttonRemove.appendChild(buttonAddMinus);
+
+            buttonRemove.addEventListener('click', function() {
+                if (number > 1) { 
+                    number--;
+
+                    quantityProduct.textContent = number < 10 ? '0' + number : number; 
+                    productPrice.textContent = calculationPrice(cardProduct.price) + ' ₽';
+                } else {
+                    buttonRemove.closest('li').remove();
+
+                    localStorage.clear();
+                }
+            });
+
+            let quantityProduct = document.createElement('span');
+            quantityProduct.setAttribute('class', 'section-order__quantity-product');
+            quantityProduct.textContent = number;
+            wrapperBtnAddRemove.appendChild(quantityProduct);
+
+            let buttonAdd = document.createElement('button');
+            buttonAdd.setAttribute('class', 'section-order__button-add-remove');
+            wrapperBtnAddRemove.appendChild(buttonAdd);
+
+            let buttonAddPlus = document.createElement('img');
+            buttonAddPlus.setAttribute('src', './img/icon/plus.svg');
+            buttonAddPlus.setAttribute('width', '15');
+            buttonAddPlus.setAttribute('height', '15');
+            buttonAdd.appendChild(buttonAddPlus);
+            buttonAdd.addEventListener('click', function(){
+                number++;
+                quantityProduct.textContent = number < 10 ? '0' + number : number;
+
+                productPrice.textContent = calculationPrice(cardProduct.price) + ' ₽';
+            });
+        })
+    }
 
     
     let sectionOrder = document.createElement('section');
@@ -214,8 +304,13 @@
     titleCart.setAttribute('class', 'section-order__title-cart');
     wrapperCart.appendChild(titleCart);
 
+    let cartListProducts = document.createElement('ul');
+    cartListProducts.setAttribute('class', 'section-order__cart-list');
+    wrapperCart.appendChild(cartListProducts);
+
     getButtons('http://localhost:3001/buttons');
     getCards('http://localhost:3001/pizzaCard');
+    getGoods();
     // getCards('http://localhost:3001/burgerCard');
     // getCards('http://localhost:3001/potatoCard');
 
