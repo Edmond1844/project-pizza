@@ -30,26 +30,34 @@
                     imgBtn.setAttribute('src', buttonNav.img);
                     navButton.appendChild(imgBtn);
 
-                    // navButton.addEventListener('click', function() {
-                    //     let target = navButton.getAttribute('data-target');
+                    navButton.addEventListener('click', function() {
+                        let target = navButton.getAttribute('data-target');
+                        let urlTarget = `http://localhost:3001/${target}`;
+
+                        const cardLisrRemove = document.querySelector('.section-order__card-list');
+
+                        if(cardLisrRemove) {
+                            cardLisrRemove.remove();
+                        }
+                        getCards(urlTarget);
                         
-                    //     let allNavButtons = document.querySelectorAll('.section-order__nav-button');
+                        let allNavButtons = document.querySelectorAll('.section-order__nav-button');
                                         
-                    //     allNavButtons.forEach((btn) => {
-                    //         btn.classList.remove('section-order__nav-button--active');
-                    //     });
-                    //         navButton.classList.add('section-order__nav-button--active');
+                        allNavButtons.forEach((btn) => {
+                            btn.classList.remove('section-order__nav-button--active');
+                        });
+                            navButton.classList.add('section-order__nav-button--active');
                                         
-                    //         let allMenus = document.querySelectorAll('.section-order__card-list');
+                            let allMenus = document.querySelectorAll('.section-order__card-list');
                         
-                    //         allMenus.forEach((menu) => {
-                    //             if (menu.getAttribute('data-card') === target) {
-                    //                 menu.classList.remove('section-order__hidden');
-                    //             } else {
-                    //                 menu.classList.add('section-order__hidden');
-                    //             }
-                    //         });
-                    // });
+                            allMenus.forEach((menu) => {
+                                if (menu.getAttribute('data-card') === target) {
+                                    menu.classList.remove('section-order__hidden');
+                                } else {
+                                    menu.classList.add('section-order__hidden');
+                                }
+                            });
+                    });
                 });
             })
             .catch(error => {
@@ -57,7 +65,7 @@
             });
     };
 
-    function getCards(url, arrayName)  {
+    function getCards(url)  {
         fetch(url)
         .then(res => res.json())
         .then((fetchData) => {
@@ -95,7 +103,7 @@
                 productPrice.setAttribute('class', 'section-order__product-price');
                 productPrice.textContent = productItem.price + ' ₽';
                 contentWrapper.appendChild(productPrice);
-        
+                
                 let addButton = document.createElement('button');
                 addButton.setAttribute('class', 'section-order__add-button');
                 contentWrapper.appendChild(addButton); 
@@ -119,8 +127,17 @@
         });
     };
 
+    function deleteProduct(index){
+        cartArray.splice(index, 1);
+        localStorage.setItem('addedData', JSON.stringify(cartArray));
+        getGoods();
+
+    }
+
     function getGoods() {
-        cartArray.forEach(cardProduct => {    
+        cartListProducts.innerHTML = '';
+
+        cartArray.forEach((cardProduct, index) => {    
             let cartItemProduct = document.createElement('li');
             cartItemProduct.setAttribute('class', 'section-order__add-product-item');
             cartListProducts.appendChild(cartItemProduct);  
@@ -137,12 +154,22 @@
             let productName = document.createElement('h3');
             productName.setAttribute('class', 'section-order__element-name');
             productName.textContent = cardProduct.productName;
-            wrapperTextCard.appendChild(productName);
 
             let productPrice = document.createElement('p');
             productPrice.setAttribute('class', 'section-order__element-price');
             productPrice.textContent = cardProduct.price + ' ₽';
-            wrapperTextCard.appendChild(productPrice);
+
+            let productRemove = document.createElement('button');
+            productRemove.setAttribute('type', 'button');
+            productRemove.setAttribute('class', 'section-order__btn-delite');
+            productRemove.textContent = 'Удалить';
+            wrapperTextCard.append(productName,productPrice,productRemove);
+
+            productRemove.addEventListener('click', function(){
+                deleteProduct(index);
+                productRemove.closest('li').remove();
+            });
+
             
             let wrapperBtnAddRemove = document.createElement('div');
             wrapperBtnAddRemove.setAttribute('class', 'section-order__wrapper-btn-add-remove');
@@ -166,7 +193,8 @@
             buttonAddMinus.setAttribute('src', './img/icon/minus.svg');
             buttonRemove.appendChild(buttonAddMinus);
 
-            buttonRemove.addEventListener('click', function() {
+            buttonRemove.addEventListener('click', () => {
+
                 if (number > 1) { 
                     number--;
 
@@ -174,8 +202,6 @@
                     productPrice.textContent = calculationPrice(cardProduct.price) + ' ₽';
                 } else {
                     buttonRemove.closest('li').remove();
-
-                    localStorage.clear();
                 }
             });
 
@@ -201,7 +227,6 @@
             });
         })
     }
-
     
     let sectionOrder = document.createElement('section');
     sectionOrder.setAttribute('class', 'section-order');
@@ -311,6 +336,4 @@
     getButtons('http://localhost:3001/buttons');
     getCards('http://localhost:3001/pizzaCard');
     getGoods();
-    // getCards('http://localhost:3001/burgerCard');
-    // getCards('http://localhost:3001/potatoCard');
 

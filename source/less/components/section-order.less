@@ -194,7 +194,7 @@
     flex-wrap: wrap;
     gap: 28px;
 
-    width: 1024px;
+    // width: 1024px;
 }
 
 .section-order__hidden {
@@ -319,6 +319,10 @@
 
 
 .section-order__wrapper-text-card {
+    position: relative;
+
+    width: 170px;
+
     margin-left: 20px;
     margin-top: 13px;
 }
@@ -347,6 +351,8 @@
     font-size: 20px;
 
     margin: 0;
+    margin-bottom: 10px;
+
 }
 
 .section-order__element-price {
@@ -358,6 +364,27 @@
     margin: 0;
 
     color: @green;
+}
+
+.section-order__btn-delite {
+    padding: 5px;
+
+    border: 0;
+    border-radius: 5px;
+
+    background-color: @orange;
+    color: @white;
+
+    position: absolute;
+    top: 6px;
+    right: -6px;
+
+    cursor: pointer;
+
+    font-family: "Roboto", serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 12px;
 }
 
 .section-order__wrapper-btn-add-remove {
