@@ -65,23 +65,31 @@
             });
     };
 
+    // let firstList = [];
+
     function getCards(url)  {
         fetch(url)
         .then(res => res.json())
         .then((fetchData) => {
             let products = fetchData; 
 
+            // firstList = products.splice(0, 2);
+
             let cardList = document.createElement('ul');
             cardList.setAttribute('class', 'section-order__card-list');
             // cardList.setAttribute('data-card', arrayName);
             orderContainer.appendChild(cardList);
+
+            let moreProduct = document.createElement('button');
+            moreProduct.setAttribute('class', 'section-order__more-product');
+            moreProduct.textContent = 'Показать еще товар';
+            cardList.appendChild(moreProduct);
 
             products.forEach(productItem => {
                 let cardItem = document.createElement('li');
                 cardItem.setAttribute('class', 'section-order__card-item');
                 cardList.appendChild(cardItem);
 
-                
                 let productPicture = document.createElement('img');
                 productPicture.setAttribute('class', 'section-order__card-img');
                 productPicture.setAttribute('src', productItem.img);
@@ -120,7 +128,7 @@
                 buttonPlus.setAttribute('src', productItem.buttonImg);
                 addButton.appendChild(buttonPlus);
             });
-                
+
         })
         .catch(error => {
             console.error('Ошибка при загрузке данных:', error);
@@ -131,8 +139,9 @@
         cartArray.splice(index, 1);
         localStorage.setItem('addedData', JSON.stringify(cartArray));
         getGoods();
-
     }
+
+    // function showProduct()
 
     function getGoods() {
         cartListProducts.innerHTML = '';
@@ -188,13 +197,14 @@
             let buttonRemove = document.createElement('button');
             buttonRemove.setAttribute('class', 'section-order__button-add-remove');
             wrapperBtnAddRemove.appendChild(buttonRemove);
+            
 
             let buttonAddMinus = document.createElement('img');
             buttonAddMinus.setAttribute('src', './img/icon/minus.svg');
             buttonRemove.appendChild(buttonAddMinus);
 
             buttonRemove.addEventListener('click', () => {
-
+                // deleteProduct(index);
                 if (number > 1) { 
                     number--;
 
