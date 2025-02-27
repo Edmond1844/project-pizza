@@ -38,7 +38,7 @@
             "width": "209",
             "height": "260",
             "productName": "Пицца пепперони",
-            "price": 880,
+            "price": 80,
             "buttonImg": "./img/icon/plus.svg"
         },
         { 
@@ -46,7 +46,7 @@
             "width": "209",
             "height": "260",
             "productName": "Пицца с колбасками",
-            "price": 950,
+            "price": 50,
             "buttonImg": "./img/icon/plus.svg"
         },
         { 
@@ -54,7 +54,7 @@
             "width": "209",
             "height": "260",
             "productName": "Пицца с грибами",
-            "price": 880,
+            "price": 70,
             "buttonImg": "./img/icon/plus.svg"
         },
         { 
@@ -62,7 +62,7 @@
             "width": "209",
             "height": "260",
             "productName": "Пицца пепперони",
-            "price": 880,
+            "price": 90,
             "buttonImg": "./img/icon/plus.svg"
         },
         { 
@@ -70,7 +70,7 @@
             "width": "209",
             "height": "260",
             "productName": "Пицца с колбасками",
-            "price": 950,
+            "price": 95,
             "buttonImg": "./img/icon/plus.svg"
         },
         { 
@@ -78,7 +78,7 @@
             "width": "209",
             "height": "260",
             "productName": "Пицца с грибами",
-            "price": 880,
+            "price": 65,
             "buttonImg": "./img/icon/plus.svg"
         }
     ],
@@ -122,6 +122,29 @@
     ],
     "drinkCard": [
         { 
+            "img": "./img/product/drinks/cola.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Cola",
+            "price": 110,
+            "buttonImg": "./img/icon/plus.svg"
+        },
+        { 
+            "img": "./img/product/drinks/cola.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Cola",
+            "price": 110,
+            "buttonImg": "./img/icon/plus.svg"
+        },
+        { 
+            "img": "./img/product/drinks/cola.png",
+            "width": "209",
+            "height": "260",
+            "productName": "Cola",
+            "price": 110,
+            "buttonImg": "./img/icon/plus.svg"
+        },        { 
             "img": "./img/product/drinks/cola.png",
             "width": "209",
             "height": "260",

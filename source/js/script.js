@@ -65,83 +65,110 @@
             });
     };
 
-    // let firstList = [];
+        
+    function getProducts(products, cardList) {
+        // cardList.innerHTML = ''; 
 
-    function getCards(url)  {
+        products.forEach(productItem => {
+            let cardItem = document.createElement('li');
+            cardItem.setAttribute('class', 'section-order__card-item');
+            cardList.appendChild(cardItem);
+    
+            let productPicture = document.createElement('img');
+            productPicture.setAttribute('class', 'section-order__card-img');
+            productPicture.setAttribute('src', productItem.img);
+            productPicture.setAttribute('alt', productItem.productName);
+            productPicture.setAttribute('width', productItem.width);
+            productPicture.setAttribute('height', productItem.height);
+            cardItem.appendChild(productPicture);
+    
+            let contentWrapper = document.createElement('div');
+            contentWrapper.setAttribute('class', 'section-order__product-wrapper');
+            cardItem.appendChild(contentWrapper);
+    
+            let productName = document.createElement('h3');
+            productName.setAttribute('class', 'section-order__product-name');
+            productName.textContent = productItem.productName;
+            contentWrapper.appendChild(productName);
+    
+            let productPrice = document.createElement('p');
+            productPrice.setAttribute('class', 'section-order__product-price');
+            productPrice.textContent = productItem.price + ' ₽';
+            contentWrapper.appendChild(productPrice);
+    
+            let addButton = document.createElement('button');
+            addButton.setAttribute('class', 'section-order__add-button');
+            contentWrapper.appendChild(addButton);
+    
+            addButton.addEventListener('click', function() {
+                cartArray.push(productItem);
+                localStorage.setItem('addedData', JSON.stringify(cartArray));
+                cartListProducts.innerHTML = '';
+                getGoods();
+            });
+    
+            let buttonPlus = document.createElement('img');
+            buttonPlus.setAttribute('src', productItem.buttonImg);
+            addButton.appendChild(buttonPlus);
+        });
+    }
+
+    function getCards(url) {
         fetch(url)
-        .then(res => res.json())
-        .then((fetchData) => {
-            let products = fetchData; 
-
-            // firstList = products.splice(0, 2);
-
-            let cardList = document.createElement('ul');
-            cardList.setAttribute('class', 'section-order__card-list');
-            // cardList.setAttribute('data-card', arrayName);
-            orderContainer.appendChild(cardList);
-
-            let moreProduct = document.createElement('button');
-            moreProduct.setAttribute('class', 'section-order__more-product');
-            moreProduct.textContent = 'Показать еще товар';
-            cardList.appendChild(moreProduct);
-
-            products.forEach(productItem => {
-                let cardItem = document.createElement('li');
-                cardItem.setAttribute('class', 'section-order__card-item');
-                cardList.appendChild(cardItem);
-
-                let productPicture = document.createElement('img');
-                productPicture.setAttribute('class', 'section-order__card-img');
-                productPicture.setAttribute('src', productItem.img);
-                productPicture.setAttribute('alt', productItem.productName);
-                productPicture.setAttribute('width', productItem.width);
-                productPicture.setAttribute('height', productItem.height);
-                cardItem.appendChild(productPicture);
-
-                let contentWrapper = document.createElement('div');
-                contentWrapper.setAttribute('class', 'section-order__product-wrapper');
-                cardItem.appendChild(contentWrapper);
-        
-                let productName = document.createElement('h3');
-                productName.setAttribute('class', 'section-order__product-name');
-                productName.textContent = productItem.productName;
-                contentWrapper.appendChild(productName);
-        
-                let productPrice = document.createElement('p');
-                productPrice.setAttribute('class', 'section-order__product-price');
-                productPrice.textContent = productItem.price + ' ₽';
-                contentWrapper.appendChild(productPrice);
+            .then(res => res.json())
+            .then((fetchData) => {
+                let productsCoppy = [...fetchData];
                 
-                let addButton = document.createElement('button');
-                addButton.setAttribute('class', 'section-order__add-button');
-                contentWrapper.appendChild(addButton); 
-
-                addButton.addEventListener('click', function(){
-                    cartArray.push(productItem);
-                    localStorage.setItem('addedData', JSON.stringify(cartArray));
-                    
-                    cartListProducts.innerHTML = '';
-                    getGoods();
+                let buttonDescending = document.createElement('button');
+                buttonDescending.setAttribute('class', 'section-order__button-filter');
+                buttonDescending.textContent = 'По убыванию цены';
+                buttonDescending.addEventListener('click', function() {
+                    productsCoppy.sort((a, b) => b.price - a.price); 
+                    getProducts(productsCoppy);
                 });
 
-                let buttonPlus = document.createElement('img');
-                buttonPlus.setAttribute('src', productItem.buttonImg);
-                addButton.appendChild(buttonPlus);
-            });
+                let buttonAscending = document.createElement('button');
+                buttonAscending.setAttribute('class', 'section-order__button-filter');
+                buttonAscending.textContent = 'По возрастанию цены';
+                buttonAscending.addEventListener('click', function() {
+                    productsCoppy.sort((a, b) => a.price - b.price);
+                    getProducts(productsCoppy);
+                });
 
-        })
-        .catch(error => {
-            console.error('Ошибка при загрузке данных:', error);
-        });
-    };
+                orderContainer.append(buttonDescending, buttonAscending);
+    
+                let cardList = document.createElement('ul');
+                cardList.setAttribute('class', 'section-order__card-list');
+                orderContainer.appendChild(cardList);
+    
+                getProducts(productsCoppy.splice(0, 2), cardList);
+    
+                if (productsCoppy.length > 0) {
+                    let moreProduct = document.createElement('button');
+                    moreProduct.setAttribute('class', 'section-order__more-product');
+                    moreProduct.textContent = 'Показать еще товар';
+                    cardList.appendChild(moreProduct);
+    
+                    moreProduct.addEventListener('click', function() {
+                        getProducts(productsCoppy.splice(0, 2), cardList);
+    
+                        if (productsCoppy.length === 0) {
+                            moreProduct.remove();
+                        }
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка при загрузке данных:', error);
+            });
+    }   
+    
 
     function deleteProduct(index){
         cartArray.splice(index, 1);
         localStorage.setItem('addedData', JSON.stringify(cartArray));
         getGoods();
-    }
-
-    // function showProduct()
+    } 
 
     function getGoods() {
         cartListProducts.innerHTML = '';
@@ -204,7 +231,7 @@
             buttonRemove.appendChild(buttonAddMinus);
 
             buttonRemove.addEventListener('click', () => {
-                // deleteProduct(index);
+                deleteProduct(index);
                 if (number > 1) { 
                     number--;
 
@@ -288,11 +315,9 @@
     let wrapperTitle = document.createElement('h3');
     wrapperTitle.setAttribute('class', 'section-order__wrapper-title');
     wrapperTitle.textContent = 'Меню';
-    navWrapper.appendChild(wrapperTitle);
 
     let headerNav = document.createElement('nav');
-    navWrapper.appendChild(headerNav);
-
+    
     let navList = document.createElement('ul');
     navList.setAttribute('class', 'section-order__wrapper-list');  
     headerNav.appendChild(navList);
@@ -302,7 +327,7 @@
     openButton.setAttribute('type', 'button');
     openButton.textContent = 'Еще';
     
-    navWrapper.appendChild(openButton);
+    navWrapper.append(wrapperTitle, headerNav, openButton);
 
     let isExpanded = false; // Флаг для отслеживания состояния
                     
