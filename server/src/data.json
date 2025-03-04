@@ -38,7 +38,7 @@
             "width": "209",
             "height": "260",
             "productName": "Пицца пепперони",
-            "price": 80,
+            "price": 1,
             "buttonImg": "./img/icon/plus.svg"
         },
         { 
@@ -46,7 +46,7 @@
             "width": "209",
             "height": "260",
             "productName": "Пицца с колбасками",
-            "price": 50,
+            "price": 6,
             "buttonImg": "./img/icon/plus.svg"
         },
         { 
@@ -54,7 +54,7 @@
             "width": "209",
             "height": "260",
             "productName": "Пицца с грибами",
-            "price": 70,
+            "price": 2,
             "buttonImg": "./img/icon/plus.svg"
         },
         { 
@@ -62,7 +62,7 @@
             "width": "209",
             "height": "260",
             "productName": "Пицца пепперони",
-            "price": 90,
+            "price": 5,
             "buttonImg": "./img/icon/plus.svg"
         },
         { 
@@ -70,7 +70,7 @@
             "width": "209",
             "height": "260",
             "productName": "Пицца с колбасками",
-            "price": 95,
+            "price": 3,
             "buttonImg": "./img/icon/plus.svg"
         },
         { 
@@ -78,7 +78,7 @@
             "width": "209",
             "height": "260",
             "productName": "Пицца с грибами",
-            "price": 65,
+            "price": 4,
             "buttonImg": "./img/icon/plus.svg"
         }
     ],

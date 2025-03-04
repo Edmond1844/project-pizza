@@ -6,6 +6,119 @@
         cartArray = JSON.parse(localStorage.getItem('addedData'));
     }
 
+    let sectionOrder = document.createElement('section');
+    sectionOrder.setAttribute('class', 'section-order');
+    document.body.appendChild(sectionOrder);
+
+    let orderContainer = document.createElement('div');
+    orderContainer.setAttribute('class', 'section-order__container');
+    sectionOrder.appendChild(orderContainer);
+
+    let wrapperContent = document.createElement('div');
+    wrapperContent.setAttribute('class', 'section-order__wrapper-content');
+    orderContainer.appendChild(wrapperContent);
+
+    let headerContent = document.createElement('div');
+    headerContent.setAttribute('class', 'section-order__header-content');
+    wrapperContent.appendChild(headerContent);
+
+    let headerWrapperText = document.createElement('div');
+    headerWrapperText.setAttribute('class', 'section-order__wrapper-text');
+    headerContent.appendChild(headerWrapperText);
+
+    let headerTitle = document.createElement('h2');
+    headerTitle.innerHTML = 'Сделай первый заказ &nbsp; и получи скидку <span>20%</span>';
+    headerTitle.setAttribute('class', 'section-order__header-title');
+    headerWrapperText.appendChild(headerTitle);
+
+    let headerTextContent = document.createElement('p');
+    headerTextContent.setAttribute('class', 'section-order__header-text');
+    headerTextContent.innerHTML = 'Предложение действует для новых клиентов &nbsp; и не распространяется на доставку';
+    headerWrapperText.appendChild(headerTextContent);
+
+    let headerBtn = document.createElement('button');
+    headerBtn.setAttribute('type', 'button');
+    headerBtn.setAttribute('class', 'section-order__header-btn');
+    headerBtn.textContent = 'Заказать';
+    headerContent.appendChild(headerBtn);
+
+    let headerImg = document.createElement('img');
+    headerImg.setAttribute('class', 'section-order__header-img');
+    headerImg.setAttribute('src', './img/header-img.png');
+    headerImg.setAttribute('width', '532');
+    headerImg.setAttribute('height', '484');
+    headerContent.appendChild(headerImg);
+
+    let navWrapper = document.createElement('div');
+    navWrapper.setAttribute('class', 'section-order__wrapper-navigation');
+    orderContainer.appendChild(navWrapper);
+
+    let buttonDescending = document.createElement('button');
+    buttonDescending.setAttribute('class', 'section-order__button-filter');
+    buttonDescending.textContent = 'По убыванию цены';
+
+    let buttonAscending = document.createElement('button');
+    buttonAscending.setAttribute('class', 'section-order__button-filter');
+    buttonAscending.textContent = 'По возрастанию цены';
+
+    orderContainer.append(buttonDescending, buttonAscending);
+
+    let wrapperTitle = document.createElement('h3');
+    wrapperTitle.setAttribute('class', 'section-order__wrapper-title');
+    wrapperTitle.textContent = 'Меню';
+
+    let headerNav = document.createElement('nav');
+    
+    let navList = document.createElement('ul');
+    navList.setAttribute('class', 'section-order__wrapper-list');  
+    headerNav.appendChild(navList);
+
+    let openButton = document.createElement('button');
+    openButton.setAttribute('class', 'section-order__button-open');
+    openButton.setAttribute('type', 'button');
+    openButton.textContent = 'Еще';
+    
+    navWrapper.append(wrapperTitle, headerNav, openButton);
+
+    let isExpanded = false; // Флаг для отслеживания состояния
+                    
+    openButton.addEventListener('click', function() {
+        let items = document.querySelectorAll('.section-order__wrapper-list li');
+                                    
+        if (!isExpanded) {
+            // Если список не развернут, показываем все элементы
+            items.forEach((item) => {
+                item.style.display = 'list-item'; // Делаем элемент видимым
+            });
+
+            openButton.textContent = 'Скрыть'; // Меняем текст кнопки на "Скрыть"
+            } else {
+            // Если список развернут, скрываем все элементы
+                items.forEach((item, index) => {
+                    if (index >= 4) { // Скрываем элементы начиная с пятого
+                        item.style.display = 'none'; // Скрываем элемент
+                    }
+                });
+                
+                openButton.textContent = 'Еще'; // Меняем текст кнопки обратно на "Все"
+            }
+                                
+            isExpanded = !isExpanded; // Переключаем состояние
+    });
+
+    let wrapperCart = document.createElement('div');
+    wrapperCart.setAttribute('class', 'section-order__cart');
+    orderContainer.appendChild(wrapperCart);
+
+    let titleCart = document.createElement('h3');
+    titleCart.textContent = 'Корзина';
+    titleCart.setAttribute('class', 'section-order__title-cart');
+    wrapperCart.appendChild(titleCart);
+
+    let cartListProducts = document.createElement('ul');
+    cartListProducts.setAttribute('class', 'section-order__cart-list');
+    wrapperCart.appendChild(cartListProducts);
+
     function getButtons(url) {
         fetch(url)
             .then(res => res.json())
@@ -65,10 +178,7 @@
             });
     };
 
-        
     function getProducts(products, cardList) {
-        // cardList.innerHTML = ''; 
-
         products.forEach(productItem => {
             let cardItem = document.createElement('li');
             cardItem.setAttribute('class', 'section-order__card-item');
@@ -111,64 +221,60 @@
             buttonPlus.setAttribute('src', productItem.buttonImg);
             addButton.appendChild(buttonPlus);
         });
-    }
+    };
 
     function getCards(url) {
         fetch(url)
             .then(res => res.json())
-            .then((fetchData) => {
-                let productsCoppy = [...fetchData];
-                
-                let buttonDescending = document.createElement('button');
-                buttonDescending.setAttribute('class', 'section-order__button-filter');
-                buttonDescending.textContent = 'По убыванию цены';
-                buttonDescending.addEventListener('click', function() {
-                    productsCoppy.sort((a, b) => b.price - a.price); 
-                    getProducts(productsCoppy);
-                });
-
-                let buttonAscending = document.createElement('button');
-                buttonAscending.setAttribute('class', 'section-order__button-filter');
-                buttonAscending.textContent = 'По возрастанию цены';
-                buttonAscending.addEventListener('click', function() {
-                    productsCoppy.sort((a, b) => a.price - b.price);
-                    getProducts(productsCoppy);
-                });
-
-                orderContainer.append(buttonDescending, buttonAscending);
+            .then((fetchData) => {    
+                let productsCoppy = [...fetchData]; 
+                console.log(productsCoppy);
     
                 let cardList = document.createElement('ul');
                 cardList.setAttribute('class', 'section-order__card-list');
                 orderContainer.appendChild(cardList);
+            
+                getProducts(productsCoppy.slice(0, 2), cardList);
+                
+                let moreProduct = document.createElement('button');
+                moreProduct.setAttribute('class', 'section-order__more-product');
+                moreProduct.textContent = 'Показать еще товар';
+                orderContainer.appendChild(moreProduct); 
     
-                getProducts(productsCoppy.splice(0, 2), cardList);
-    
-                if (productsCoppy.length > 0) {
-                    let moreProduct = document.createElement('button');
-                    moreProduct.setAttribute('class', 'section-order__more-product');
-                    moreProduct.textContent = 'Показать еще товар';
-                    cardList.appendChild(moreProduct);
-    
-                    moreProduct.addEventListener('click', function() {
-                        getProducts(productsCoppy.splice(0, 2), cardList);
-    
+                moreProduct.addEventListener('click', function() {
+                    if (productsCoppy.length > 0) {
+                        getProducts(cardsToShow.splice(0, 2), cardList); 
                         if (productsCoppy.length === 0) {
-                            moreProduct.remove();
+                            moreProduct.remove(); 
                         }
-                    });
-                }
+                    }
+                });
+                
+    
+                buttonAscending.addEventListener('click', function() {
+                    productsCoppy.sort((a, b) => a.price - b.price);
+                    cardList.innerHTML = ''; 
+
+                    getProducts(productsCoppy.slice(0, 2), cardList); 
+                });
+    
+                buttonDescending.addEventListener('click', function() {
+                    productsCoppy.sort((a, b) => b.price - a.price); 
+                    cardList.innerHTML = ''; 
+                    getProducts(productsCoppy.slice(0, 2), cardList); 
+                });
+                
             })
             .catch(error => {
                 console.error('Ошибка при загрузке данных:', error);
             });
-    }   
-    
+    } 
 
     function deleteProduct(index){
         cartArray.splice(index, 1);
         localStorage.setItem('addedData', JSON.stringify(cartArray));
         getGoods();
-    } 
+    };
 
     function getGoods() {
         cartListProducts.innerHTML = '';
@@ -263,110 +369,8 @@
                 productPrice.textContent = calculationPrice(cardProduct.price) + ' ₽';
             });
         })
-    }
-    
-    let sectionOrder = document.createElement('section');
-    sectionOrder.setAttribute('class', 'section-order');
-    document.body.appendChild(sectionOrder);
+    };
 
-    let orderContainer = document.createElement('div');
-    orderContainer.setAttribute('class', 'section-order__container');
-    sectionOrder.appendChild(orderContainer);
-
-    let wrapperContent = document.createElement('div');
-    wrapperContent.setAttribute('class', 'section-order__wrapper-content');
-    orderContainer.appendChild(wrapperContent);
-
-    let headerContent = document.createElement('div');
-    headerContent.setAttribute('class', 'section-order__header-content');
-    wrapperContent.appendChild(headerContent);
-
-    let headerWrapperText = document.createElement('div');
-    headerWrapperText.setAttribute('class', 'section-order__wrapper-text');
-    headerContent.appendChild(headerWrapperText);
-
-    let headerTitle = document.createElement('h2');
-    headerTitle.innerHTML = 'Сделай первый заказ &nbsp; и получи скидку <span>20%</span>';
-    headerTitle.setAttribute('class', 'section-order__header-title');
-    headerWrapperText.appendChild(headerTitle);
-
-    let headerTextContent = document.createElement('p');
-    headerTextContent.setAttribute('class', 'section-order__header-text');
-    headerTextContent.innerHTML = 'Предложение действует для новых клиентов &nbsp; и не распространяется на доставку';
-    headerWrapperText.appendChild(headerTextContent);
-
-    let headerBtn = document.createElement('button');
-    headerBtn.setAttribute('type', 'button');
-    headerBtn.setAttribute('class', 'section-order__header-btn');
-    headerBtn.textContent = 'Заказать';
-    headerContent.appendChild(headerBtn);
-
-    let headerImg = document.createElement('img');
-    headerImg.setAttribute('class', 'section-order__header-img');
-    headerImg.setAttribute('src', './img/header-img.png');
-    headerImg.setAttribute('width', '532');
-    headerImg.setAttribute('height', '484');
-    headerContent.appendChild(headerImg);
-
-    let navWrapper = document.createElement('div');
-    navWrapper.setAttribute('class', 'section-order__wrapper-navigation');
-    orderContainer.appendChild(navWrapper);
-
-    let wrapperTitle = document.createElement('h3');
-    wrapperTitle.setAttribute('class', 'section-order__wrapper-title');
-    wrapperTitle.textContent = 'Меню';
-
-    let headerNav = document.createElement('nav');
-    
-    let navList = document.createElement('ul');
-    navList.setAttribute('class', 'section-order__wrapper-list');  
-    headerNav.appendChild(navList);
-
-    let openButton = document.createElement('button');
-    openButton.setAttribute('class', 'section-order__button-open');
-    openButton.setAttribute('type', 'button');
-    openButton.textContent = 'Еще';
-    
-    navWrapper.append(wrapperTitle, headerNav, openButton);
-
-    let isExpanded = false; // Флаг для отслеживания состояния
-                    
-    openButton.addEventListener('click', function() {
-        let items = document.querySelectorAll('.section-order__wrapper-list li');
-                                    
-        if (!isExpanded) {
-            // Если список не развернут, показываем все элементы
-            items.forEach((item) => {
-                item.style.display = 'list-item'; // Делаем элемент видимым
-            });
-
-            openButton.textContent = 'Скрыть'; // Меняем текст кнопки на "Скрыть"
-            } else {
-            // Если список развернут, скрываем все элементы
-                items.forEach((item, index) => {
-                    if (index >= 4) { // Скрываем элементы начиная с пятого
-                        item.style.display = 'none'; // Скрываем элемент
-                    }
-                });
-                
-                openButton.textContent = 'Еще'; // Меняем текст кнопки обратно на "Все"
-            }
-                                
-            isExpanded = !isExpanded; // Переключаем состояние
-    });
-
-    let wrapperCart = document.createElement('div');
-    wrapperCart.setAttribute('class', 'section-order__cart');
-    orderContainer.appendChild(wrapperCart);
-
-    let titleCart = document.createElement('h3');
-    titleCart.textContent = 'Корзина';
-    titleCart.setAttribute('class', 'section-order__title-cart');
-    wrapperCart.appendChild(titleCart);
-
-    let cartListProducts = document.createElement('ul');
-    cartListProducts.setAttribute('class', 'section-order__cart-list');
-    wrapperCart.appendChild(cartListProducts);
 
     getButtons('http://localhost:3001/buttons');
     getCards('http://localhost:3001/pizzaCard');
