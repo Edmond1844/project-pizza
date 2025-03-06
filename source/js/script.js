@@ -1,5 +1,9 @@
     let cartArray = [];
 
+    import getCards from "./getCards.js";
+    import getProducts from "./getProducts.js";
+    import getGoods from "./getGoods.js";
+
     if(!localStorage.getItem('addedData')) {
         console.log('Пусто')
     } else {
@@ -53,13 +57,15 @@
     navWrapper.setAttribute('class', 'section-order__wrapper-navigation');
     orderContainer.appendChild(navWrapper);
 
-    let buttonDescending = document.createElement('button');
-    buttonDescending.setAttribute('class', 'section-order__button-filter');
-    buttonDescending.textContent = 'По убыванию цены';
+    // let buttonDescending = document.createElement('button');
+    // buttonDescending.setAttribute('class', 'section-order__button-filter');
+    // buttonDescending.textContent = 'По убыванию цены';
+    // buttonDescending.setAttribute('data-sort', 'price-down');
 
-    let buttonAscending = document.createElement('button');
-    buttonAscending.setAttribute('class', 'section-order__button-filter');
-    buttonAscending.textContent = 'По возрастанию цены';
+    // let buttonAscending = document.createElement('button');
+    // buttonAscending.setAttribute('class', 'section-order__button-filter');
+    // buttonAscending.textContent = 'По возрастанию цены';
+    // buttonAscending.setAttribute('data-sort', 'price-up');
 
     orderContainer.append(buttonDescending, buttonAscending);
 
@@ -178,201 +184,202 @@
             });
     };
 
-    function getProducts(products, cardList) {
-        products.forEach(productItem => {
-            let cardItem = document.createElement('li');
-            cardItem.setAttribute('class', 'section-order__card-item');
-            cardList.appendChild(cardItem);
+    // function getProducts(products, cardList) {
+    //     products.forEach(productItem => {
+    //         let cardItem = document.createElement('li');
+    //         cardItem.setAttribute('class', 'section-order__card-item');
+    //         cardList.appendChild(cardItem);
     
-            let productPicture = document.createElement('img');
-            productPicture.setAttribute('class', 'section-order__card-img');
-            productPicture.setAttribute('src', productItem.img);
-            productPicture.setAttribute('alt', productItem.productName);
-            productPicture.setAttribute('width', productItem.width);
-            productPicture.setAttribute('height', productItem.height);
-            cardItem.appendChild(productPicture);
+    //         let productPicture = document.createElement('img');
+    //         productPicture.setAttribute('class', 'section-order__card-img');
+    //         productPicture.setAttribute('src', productItem.img);
+    //         productPicture.setAttribute('alt', productItem.productName);
+    //         productPicture.setAttribute('width', productItem.width);
+    //         productPicture.setAttribute('height', productItem.height);
+    //         cardItem.appendChild(productPicture);
     
-            let contentWrapper = document.createElement('div');
-            contentWrapper.setAttribute('class', 'section-order__product-wrapper');
-            cardItem.appendChild(contentWrapper);
+    //         let contentWrapper = document.createElement('div');
+    //         contentWrapper.setAttribute('class', 'section-order__product-wrapper');
+    //         cardItem.appendChild(contentWrapper);
     
-            let productName = document.createElement('h3');
-            productName.setAttribute('class', 'section-order__product-name');
-            productName.textContent = productItem.productName;
-            contentWrapper.appendChild(productName);
+    //         let productName = document.createElement('h3');
+    //         productName.setAttribute('class', 'section-order__product-name');
+    //         productName.textContent = productItem.productName;
+    //         contentWrapper.appendChild(productName);
     
-            let productPrice = document.createElement('p');
-            productPrice.setAttribute('class', 'section-order__product-price');
-            productPrice.textContent = productItem.price + ' ₽';
-            contentWrapper.appendChild(productPrice);
+    //         let productPrice = document.createElement('p');
+    //         productPrice.setAttribute('class', 'section-order__product-price');
+    //         productPrice.textContent = productItem.price + ' ₽';
+    //         contentWrapper.appendChild(productPrice);
     
-            let addButton = document.createElement('button');
-            addButton.setAttribute('class', 'section-order__add-button');
-            contentWrapper.appendChild(addButton);
+    //         let addButton = document.createElement('button');
+    //         addButton.setAttribute('class', 'section-order__add-button');
+    //         contentWrapper.appendChild(addButton);
     
-            addButton.addEventListener('click', function() {
-                cartArray.push(productItem);
-                localStorage.setItem('addedData', JSON.stringify(cartArray));
-                cartListProducts.innerHTML = '';
-                getGoods();
-            });
+    //         addButton.addEventListener('click', function() {
+    //             cartArray.push(productItem);
+    //             localStorage.setItem('addedData', JSON.stringify(cartArray));
+    //             cartListProducts.innerHTML = '';
+    //             getGoods();
+    //         });
     
-            let buttonPlus = document.createElement('img');
-            buttonPlus.setAttribute('src', productItem.buttonImg);
-            addButton.appendChild(buttonPlus);
-        });
-    };
+    //         let buttonPlus = document.createElement('img');
+    //         buttonPlus.setAttribute('src', productItem.buttonImg);
+    //         addButton.appendChild(buttonPlus);
+    //     });
+    // };
 
-    function getCards(url) {
-        fetch(url)
-            .then(res => res.json())
-            .then((fetchData) => {    
-                let productsCoppy = [...fetchData]; 
-                console.log(productsCoppy);
+    // function getCards(url) {
+    //     fetch(url)
+    //         .then(res => res.json())
+    //         .then((fetchData) => {    
+    //             let productsCoppy = [...fetchData]; 
+    //             console.log(productsCoppy);
     
-                let cardList = document.createElement('ul');
-                cardList.setAttribute('class', 'section-order__card-list');
-                orderContainer.appendChild(cardList);
+    //             let cardList = document.createElement('ul');
+    //             cardList.setAttribute('class', 'section-order__card-list');
+    //             orderContainer.appendChild(cardList);
             
-                getProducts(productsCoppy.slice(0, 2), cardList);
+    //             getProducts(productsCoppy.slice(0, 2), cardList);
                 
-                let moreProduct = document.createElement('button');
-                moreProduct.setAttribute('class', 'section-order__more-product');
-                moreProduct.textContent = 'Показать еще товар';
-                orderContainer.appendChild(moreProduct); 
+    //             let moreProduct = document.createElement('button');
+    //             moreProduct.setAttribute('class', 'section-order__more-product');
+    //             moreProduct.textContent = 'Показать еще товар';
+    //             orderContainer.appendChild(moreProduct); 
     
-                moreProduct.addEventListener('click', function() {
-                    if (productsCoppy.length > 0) {
-                        getProducts(cardsToShow.splice(0, 2), cardList); 
-                        if (productsCoppy.length === 0) {
-                            moreProduct.remove(); 
-                        }
-                    }
-                });
+    //             moreProduct.addEventListener('click', function() {
+    //                 if (productsCoppy.length > 0) {
+    //                     getProducts(cardsToShow.splice(0, 2), cardList); 
+    //                     if (productsCoppy.length === 0) {
+    //                         moreProduct.remove(); 
+    //                     }
+    //                 }
+    //             });
                 
     
-                buttonAscending.addEventListener('click', function() {
-                    productsCoppy.sort((a, b) => a.price - b.price);
-                    cardList.innerHTML = ''; 
+    //             buttonAscending.addEventListener('click', function() {
+    //                 productsCoppy.sort((a, b) => a.price - b.price);
+    //                 cardList.innerHTML = ''; 
 
-                    getProducts(productsCoppy.slice(0, 2), cardList); 
-                });
+    //                 getProducts(productsCoppy.slice(0, 2), cardList); 
+    //             });
     
-                buttonDescending.addEventListener('click', function() {
-                    productsCoppy.sort((a, b) => b.price - a.price); 
-                    cardList.innerHTML = ''; 
-                    getProducts(productsCoppy.slice(0, 2), cardList); 
-                });
+    //             buttonDescending.addEventListener('click', function() {
+    //                 productsCoppy.sort((a, b) => b.price - a.price); 
+    //                 cardList.innerHTML = ''; 
+    //                 getProducts(productsCoppy.slice(0, 2), cardList); 
+    //             });
                 
-            })
-            .catch(error => {
-                console.error('Ошибка при загрузке данных:', error);
-            });
-    } 
+    //         })
+    //         .catch(error => {
+    //             console.error('Ошибка при загрузке данных:', error);
+    //         });
+    // } 
 
-    function deleteProduct(index){
-        cartArray.splice(index, 1);
-        localStorage.setItem('addedData', JSON.stringify(cartArray));
-        getGoods();
-    };
+    // function deleteProduct(index){
+    //     cartArray.splice(index, 1);
+    //     localStorage.setItem('addedData', JSON.stringify(cartArray));
+    //     getGoods();
+    // };
 
-    function getGoods() {
-        cartListProducts.innerHTML = '';
+    // function getGoods() {
+    //     cartListProducts.innerHTML = '';
 
-        cartArray.forEach((cardProduct, index) => {    
-            let cartItemProduct = document.createElement('li');
-            cartItemProduct.setAttribute('class', 'section-order__add-product-item');
-            cartListProducts.appendChild(cartItemProduct);  
+    //     cartArray.forEach((cardProduct, index) => {    
+    //         let cartItemProduct = document.createElement('li');
+    //         cartItemProduct.setAttribute('class', 'section-order__add-product-item');
+    //         cartListProducts.appendChild(cartItemProduct);  
 
-            let productImage = document.createElement('img');
-            productImage.setAttribute('src', cardProduct.img);
-            productImage.setAttribute('class', 'section-order__img-cart');
-            cartItemProduct.appendChild(productImage);
+    //         let productImage = document.createElement('img');
+    //         productImage.setAttribute('src', cardProduct.img);
+    //         productImage.setAttribute('class', 'section-order__img-cart');
+    //         cartItemProduct.appendChild(productImage);
 
-            let wrapperTextCard = document.createElement('div');
-            wrapperTextCard.setAttribute('class', 'section-order__wrapper-text-card');
-            cartItemProduct.appendChild(wrapperTextCard);
+    //         let wrapperTextCard = document.createElement('div');
+    //         wrapperTextCard.setAttribute('class', 'section-order__wrapper-text-card');
+    //         cartItemProduct.appendChild(wrapperTextCard);
             
-            let productName = document.createElement('h3');
-            productName.setAttribute('class', 'section-order__element-name');
-            productName.textContent = cardProduct.productName;
+    //         let productName = document.createElement('h3');
+    //         productName.setAttribute('class', 'section-order__element-name');
+    //         productName.textContent = cardProduct.productName;
 
-            let productPrice = document.createElement('p');
-            productPrice.setAttribute('class', 'section-order__element-price');
-            productPrice.textContent = cardProduct.price + ' ₽';
+    //         let productPrice = document.createElement('p');
+    //         productPrice.setAttribute('class', 'section-order__element-price');
+    //         productPrice.textContent = cardProduct.price + ' ₽';
 
-            let productRemove = document.createElement('button');
-            productRemove.setAttribute('type', 'button');
-            productRemove.setAttribute('class', 'section-order__btn-delite');
-            productRemove.textContent = 'Удалить';
-            wrapperTextCard.append(productName,productPrice,productRemove);
+    //         let productRemove = document.createElement('button');
+    //         productRemove.setAttribute('type', 'button');
+    //         productRemove.setAttribute('class', 'section-order__btn-delite');
+    //         productRemove.textContent = 'Удалить';
+    //         wrapperTextCard.append(productName,productPrice,productRemove);
 
-            productRemove.addEventListener('click', function(){
-                deleteProduct(index);
-                productRemove.closest('li').remove();
-            });
+    //         productRemove.addEventListener('click', function(){
+    //             deleteProduct(index);
+    //             productRemove.closest('li').remove();
+    //         });
 
             
-            let wrapperBtnAddRemove = document.createElement('div');
-            wrapperBtnAddRemove.setAttribute('class', 'section-order__wrapper-btn-add-remove');
-            cartItemProduct.appendChild(wrapperBtnAddRemove);
+    //         let wrapperBtnAddRemove = document.createElement('div');
+    //         wrapperBtnAddRemove.setAttribute('class', 'section-order__wrapper-btn-add-remove');
+    //         cartItemProduct.appendChild(wrapperBtnAddRemove);
 
-            let number = '0' + 1;
+    //         let number = '0' + 1;
             
-            function calculationPrice() {
-                let priceItem = cardProduct.price;
+    //         function calculationPrice() {
+    //             let priceItem = cardProduct.price;
                 
-                const price = priceItem * number;
+    //             const price = priceItem * number;
                 
-                return price;
-            };
+    //             return price;
+    //         };
 
-            let buttonRemove = document.createElement('button');
-            buttonRemove.setAttribute('class', 'section-order__button-add-remove');
-            wrapperBtnAddRemove.appendChild(buttonRemove);
+    //         let buttonRemove = document.createElement('button');
+    //         buttonRemove.setAttribute('class', 'section-order__button-add-remove');
+    //         wrapperBtnAddRemove.appendChild(buttonRemove);
             
 
-            let buttonAddMinus = document.createElement('img');
-            buttonAddMinus.setAttribute('src', './img/icon/minus.svg');
-            buttonRemove.appendChild(buttonAddMinus);
+    //         let buttonAddMinus = document.createElement('img');
+    //         buttonAddMinus.setAttribute('src', './img/icon/minus.svg');
+    //         buttonRemove.appendChild(buttonAddMinus);
 
-            buttonRemove.addEventListener('click', () => {
-                deleteProduct(index);
-                if (number > 1) { 
-                    number--;
+    //         buttonRemove.addEventListener('click', () => {
+    //             deleteProduct(index);
+    //             if (number > 1) { 
+    //                 number--;
 
-                    quantityProduct.textContent = number < 10 ? '0' + number : number; 
-                    productPrice.textContent = calculationPrice(cardProduct.price) + ' ₽';
-                } else {
-                    buttonRemove.closest('li').remove();
-                }
-            });
+    //                 quantityProduct.textContent = number < 10 ? '0' + number : number; 
+    //                 productPrice.textContent = calculationPrice(cardProduct.price) + ' ₽';
+    //             } else {
+    //                 buttonRemove.closest('li').remove();
+    //             }
+    //         });
 
-            let quantityProduct = document.createElement('span');
-            quantityProduct.setAttribute('class', 'section-order__quantity-product');
-            quantityProduct.textContent = number;
-            wrapperBtnAddRemove.appendChild(quantityProduct);
+    //         let quantityProduct = document.createElement('span');
+    //         quantityProduct.setAttribute('class', 'section-order__quantity-product');
+    //         quantityProduct.textContent = number;
+    //         wrapperBtnAddRemove.appendChild(quantityProduct);
 
-            let buttonAdd = document.createElement('button');
-            buttonAdd.setAttribute('class', 'section-order__button-add-remove');
-            wrapperBtnAddRemove.appendChild(buttonAdd);
+    //         let buttonAdd = document.createElement('button');
+    //         buttonAdd.setAttribute('class', 'section-order__button-add-remove');
+    //         wrapperBtnAddRemove.appendChild(buttonAdd);
 
-            let buttonAddPlus = document.createElement('img');
-            buttonAddPlus.setAttribute('src', './img/icon/plus.svg');
-            buttonAddPlus.setAttribute('width', '15');
-            buttonAddPlus.setAttribute('height', '15');
-            buttonAdd.appendChild(buttonAddPlus);
-            buttonAdd.addEventListener('click', function(){
-                number++;
-                quantityProduct.textContent = number < 10 ? '0' + number : number;
+    //         let buttonAddPlus = document.createElement('img');
+    //         buttonAddPlus.setAttribute('src', './img/icon/plus.svg');
+    //         buttonAddPlus.setAttribute('width', '15');
+    //         buttonAddPlus.setAttribute('height', '15');
+    //         buttonAdd.appendChild(buttonAddPlus);
+    //         buttonAdd.addEventListener('click', function(){
+    //             number++;
+    //             quantityProduct.textContent = number < 10 ? '0' + number : number;
 
-                productPrice.textContent = calculationPrice(cardProduct.price) + ' ₽';
-            });
-        })
-    };
+    //             productPrice.textContent = calculationPrice(cardProduct.price) + ' ₽';
+    //         });
+    //     })
+    // };
 
 
     getButtons('http://localhost:3001/buttons');
     getCards('http://localhost:3001/pizzaCard');
     getGoods();
+    
 
